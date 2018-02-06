@@ -1,0 +1,82 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+*, :after, :before {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,\\5FAE\8F6F\96C5\9ED1,Arial,sans-serif;
+}
+
+.datePicker {
+    width: 216px;
+    margin: 10px;
+    color: #c3cbd6;
+}
+
+.dateHeader {
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    border-bottom: 1px solid #e3e8ee;
+}
+
+.left, .right {
+    display: inline-block;
+    width: 20px;
+    height: 24px;
+    line-height: 26px;
+    margin-top: 4px;
+    text-align: center;
+    cursor: pointer;
+    color: #c3cbd6;
+    -webkit-transition: color .2s ease-in-out;
+    transition: color .2s ease-in-out;
+}
+
+.left {
+    float: left;
+    margin-left: 10px;
+}
+
+.right {
+    float: right;
+    margin-right: 10px;
+}
+
+.dateMain {
+    margin: 10px;
+}
+
+.dateDay {
+    line-height: normal;
+    font-size: 0;
+    letter-spacing:normal;
+}
+
+span {
+    display: inline-block;
+    text-align: center;
+    font-size: 12px;
+}
+
+.dateDay span {
+    line-height: 24px;
+    width: 24px;
+    height: 24px;
+    margin: 2px;
+}
+
+.dateBody span {
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    cursor: pointer;   
+}
+
+.dateBody span.currentMonth {
+    color: #657180;
+}
