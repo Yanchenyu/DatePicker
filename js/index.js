@@ -18,7 +18,7 @@ window.onload = function(){
                     // 偶数月
                     if (month === 2) {
                         // 2月特殊
-                        if (year % 4 === 0) {
+                        if ((year % 400 == 0) || ( year % 4 == 0 && year % 100 != 0)) {
                             // 闰年
                             var alldays = 29
                         } else {
