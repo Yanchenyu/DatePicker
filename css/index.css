@@ -11,10 +11,29 @@ body {
     font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,\\5FAE\8F6F\96C5\9ED1,Arial,sans-serif;
 }
 
+.textInput {
+    position: relative;
+    display: block;
+}
+
 .datePicker {
     width: 216px;
     margin: 10px;
     color: #c3cbd6;
+    border-radius: 4px;
+    box-shadow: 0 1px 6px rgba(0,0,0,.2);
+    transform-origin: center top 0px;
+    transition: all .2s ease-in-out;
+    position: absolute;
+    left: 0px;
+    top: 16px;
+}
+.datePickerHide {
+    opacity: 0;
+}
+
+.datePickerShow {
+    opacity: 1;
 }
 
 .dateHeader {
@@ -73,10 +92,38 @@ span {
 .dateBody span {
     width: 28px;
     height: 28px;
-    line-height: 28px;
     cursor: pointer;   
+}
+
+.dateBody span em {
+    display: inline-block;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    margin: 2px;
+    font-style: normal;
+    border-radius: 3px;
+    text-align: center;
+    transition: all .2s ease-in-out;
 }
 
 .dateBody span.currentMonth {
     color: #657180;
+}
+
+.today:after {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #39f;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+}
+
+.currentMonth em:hover {
+    background-color: #e1f0fe;
 }
