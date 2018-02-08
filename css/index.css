@@ -127,3 +127,50 @@ span {
 .currentMonth em:hover {
     background-color: #e1f0fe;
 }
+
+.col {
+    color: #657180;
+}
+
+.headerMid {
+    cursor: pointer;
+}
+
+.headerMid:hover {
+    color: #39f;
+}
+
+/* second */
+.secondPage {
+    width: 196px;
+    font-size: 0;
+}
+
+.secondPage span {
+    display: inline-block;
+    width: 40px;
+    height: 28px;
+    line-height: 28px;
+    margin: 10px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.secondPage span em {
+    display: inline-block;
+    width: 40px;
+    height: 28px;
+    line-height: 28px;
+    margin: 0;
+    font-style: normal;
+    border-radius: 3px;
+    text-align: center;
+    transition: all .2s ease-in-out;
+    color: #657180;
+}
+
+.secondPage span em:hover {
+    background-color: #e1f0fe;
+}
+
+

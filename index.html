@@ -11,26 +11,60 @@
     <input id="textInput" class="textInput" type="text" placeholder="选择日期" />
     <div id="datePicker" class="datePicker datePickerHide">
         <div class="dateHeader">
-            <span id="yearLeft" class="left">&lt;&lt;</span>
-            <span id="monthLeft" class="left">&lt;</span>
-            <span id="dateYear"></span>
-            <span>年</span>
-            <span id="dateMonth"></span>
-            <span>月</span>
-            <span id="yearRight" class="right">&gt;&gt;</span>
-            <span id="monthRight" class="right">&gt;</span>
+            <span id="yearLeft" class="left headerMid">&lt;&lt;</span>
+            <span id="monthLeft" class="left headerMid page">&lt;</span>
+            <span id="changeDateHead" class="page">
+                <span id="changeYear" class="headerMid col">
+                    <span id="dateYear"></span>
+                    <span>年</span>
+                </span>
+                <span id="changeMonth" class="headerMid col">
+                    <span id="dateMonth"></span>
+                    <span>月</span>
+                </span>
+            </span>
+            <span id="changeYearHead" class="page headerMid col" style="display: none">
+                <span id="changeYearFirst"></span>
+                <span>年</span>
+                <span>-</span>
+                <span id="changeYearLast"></span>
+                <span>年</span>
+            </span>
+            <span id="changeMonthHead" class="page  headerMid col" style="display: none">
+                <span id="backChangeYearPage"></span>
+                <span>年</span>
+            </span>
+            <span id="yearRight" class="right headerMid">&gt;&gt;</span>
+            <span id="monthRight" class="right headerMid page">&gt;</span>
         </div>
         <div class="dateMain">
-            <div class="dateDay">
-                <span>日</span>
-                <span>一</span>
-                <span>二</span>
-                <span>三</span>
-                <span>四</span>
-                <span>五</span>
-                <span>六</span>
+            <div id="firstPage" class="page firstPage" style="display: block">
+                <div class="dateDay">
+                    <span>日</span>
+                    <span>一</span>
+                    <span>二</span>
+                    <span>三</span>
+                    <span>四</span>
+                    <span>五</span>
+                    <span>六</span>
+                </div>
+                <div id="dateBody" class="dateBody"></div>
             </div>
-            <div id="dateBody" class="dateBody"></div>
+            <div id="secondPage" class="page secondPage" style="display: none"></div>
+            <div id="thirdPage" class="page secondPage" style="display: none" onclick="chooseMonth()">
+                    <span><em id="month-1" index='1'>1月</em></span>
+                    <span><em id="month-2" index='2'>2月</em></span>
+                    <span><em id="month-3" index='3'>3月</em></span>
+                    <span><em id="month-4" index='4'>4月</em></span>
+                    <span><em id="month-5" index='5'>5月</em></span>
+                    <span><em id="month-6" index='6'>6月</em></span>
+                    <span><em id="month-7" index='7'>7月</em></span>
+                    <span><em id="month-8" index='8'>8月</em></span>
+                    <span><em id="month-9" index='9'>9月</em></span>
+                    <span><em id="month-10" index='10'>10月</em></span>
+                    <span><em id="month-11" index='11'>11月</em></span>
+                    <span><em id="month-12" index='12'>12月</em></span>
+            </div>
         </div>
     </div>
 </body>
