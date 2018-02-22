@@ -44,18 +44,18 @@ window.onload = function(){
         getIdDom('secondPage').innerHTML = yearTemplate;
     }
 
-    var yearStr = year.toString();
-    var yearLastLetter = yearStr[yearStr.length-1];     // 末尾数
-    firstNum = year - Number(yearLastLetter);   // 二级页面首位数字
-    renderSecondPage(firstNum);
+    var reRenderSecondPage = function(){
+        var yearStr = year.toString();
+        var yearLastLetter = yearStr[yearStr.length-1];     // 末尾数
+        firstNum = year - Number(yearLastLetter);   // 二级页面首位数字
+        renderSecondPage(firstNum);
+    }
+    reRenderSecondPage();
+    
 
     getIdDom("backChangeYearPage").innerHTML = year;     // 三级页面年份
 
     // click事件集中写
-
-    var clickFn = function(id, fn) {
-        getIdDom(id).onclick = fn;
-    };  // 封装一下click方法
     
     // 上一年下一年，上一月下一月的点击事件
     clickFn('yearLeft', function(){
@@ -75,10 +75,7 @@ window.onload = function(){
             year--;
             renderFirstPage(year, month, date);
             getIdDom("backChangeYearPage").innerHTML = year;
-            var yearStr = year.toString();
-            var yearLastLetter = yearStr[yearStr.length-1];     // 末尾数
-            firstNum = year - Number(yearLastLetter);   // 二级页面首位数字
-            renderSecondPage(firstNum);
+            reRenderSecondPage();
         }
     });
 
@@ -102,10 +99,7 @@ window.onload = function(){
             year++;
             renderFirstPage(year, month, date);
             getIdDom("backChangeYearPage").innerHTML = year;
-            var yearStr = year.toString();
-            var yearLastLetter = yearStr[yearStr.length-1];     // 末尾数
-            firstNum = year - Number(yearLastLetter);   // 二级页面首位数字
-            renderSecondPage(firstNum);
+            reRenderSecondPage();
         }
     });
 
@@ -126,12 +120,9 @@ window.onload = function(){
         pagesArr.forEach(function(item){
             item.style = 'display: none'
         });
-        var yearStr = year.toString();
-        var yearLastLetter = yearStr[yearStr.length-1];     // 末尾数
-        firstNum = year - Number(yearLastLetter);   // 二级页面首位数字
-        renderSecondPage(firstNum);
-        getIdDom('secondPage').style = "display: block";
-        getIdDom('changeYearHead').style = "display: inline-block";
+        reRenderSecondPage();
+        changeStyle('secondPage', 'display: block');
+        changeStyle('changeYearHead', 'display: inline-block');
     });     // 点击年份切换至二级页面
 
     clickFn('changeMonth', function(){
@@ -141,12 +132,12 @@ window.onload = function(){
         });
         if (lastMonthId !== '') {
             // 非第一次点击
-            document.getElementById(lastMonthId).style = "";
+            getIdDom(lastMonthId).style = "";
         }
-        getIdDom("month-" + month).style = "background-color: #39f;color: #fff";
+        changeStyle("month-" + month, 'background-color: #39f;color: #fff');
         lastMonthId = 'month-' + month;
-        getIdDom('thirdPage').style = "display: block";
-        getIdDom('changeMonthHead').style = "display: inline-block";
+        changeStyle('thirdPage', 'display: block');
+        changeStyle('changeMonthHead', 'display: inline-block');
     })
 
     clickFn('changeMonthHead', function(){
@@ -155,13 +146,18 @@ window.onload = function(){
         pagesArr.forEach(function(item){
             item.style = 'display: none'
         });
-        getIdDom('secondPage').style = "display: block";
-        getIdDom('changeYearHead').style = "display: inline-block";
-        var yearStr = year.toString();
-        var yearLastLetter = yearStr[yearStr.length-1];     // 末尾数
-        firstNum = year - Number(yearLastLetter);   // 二级页面首位数字
-        renderSecondPage(firstNum);
+        changeStyle('secondPage', 'display: block');
+        changeStyle('changeYearHead', 'display: inline-block');
+        reRenderSecondPage();
     })
+
+    document.getElementsByTagName('html')[0].onclick = function(e){
+        // 这里模拟失去焦点事件
+        var name = e.target.nodeName;
+        if (name == 'BODY' || name == 'HTML') {
+            datePicker.className = 'datePicker datePickerHide';
+        }
+    }
 
 }
 
@@ -170,6 +166,9 @@ function getIdDom(id){
     return document.getElementById(id)
 }  // 根据id获取dom节点
 
+function clickFn(id, fn) {
+    getIdDom(id).onclick = fn;
+}  // 封装一下click方法
 
 function renderFirstPage(year, month, date = 1){
     var datePage = [];    // 最终展示页面的所有日期合集        
@@ -265,25 +264,25 @@ function chooseDate(item, index, year, month, date) {
     event.stopPropagation();
     if (lastDateId !== '') {
         // 非第一次点击
-        document.getElementById(lastDateId).style = "";
+        getIdDom(lastDateId).style = "";
     }
     // 选中项样式改变，并且将input的日期修改
     lastDateId = index;
     item.style = "background-color: #39f;color: #fff";
-    document.getElementById("textInput").value = year + '-' + month + '-' + date;
+    getIdDom("textInput").value = year + '-' + month + '-' + date;
 }
 
 function chooseYear(item, thisYear) {
     event.stopPropagation();
     if (lastYearId !== '') {
         // 非第一次点击
-        if (document.getElementById(lastYearId)) {
+        if (getIdDom(lastYearId)) {
             // 存在已经跨页面了，但是id不存在了
-            document.getElementById(lastYearId).style = "";
+            getIdDom(lastYearId).style = "";
         }
     } else {
         // 第一次点击
-        document.getElementById('year-' + year).style = "";
+        getIdDom('year-' + year).style = "";
         
     }
     lastYearId = 'year-' + thisYear;
@@ -295,13 +294,13 @@ function chooseYear(item, thisYear) {
     });
     if (lastMonthId !== '') {
         // 非第一次点击
-        document.getElementById(lastMonthId).style = "";
+        getIdDom(lastMonthId).style = "";
     }
-    getIdDom("month-" + month).style = "background-color: #39f;color: #fff";
+    changeStyle("month-" + month, 'background-color: #39f;color: #fff');
     lastMonthId = 'month-' + month;
-    document.getElementById("changeMonthHead").style.display = "inline-block";
-    document.getElementById("backChangeYearPage").innerHTML = year;
-    document.getElementById("thirdPage").style.display = "block";
+    getIdDom("backChangeYearPage").innerHTML = year;
+    changeStyle('changeMonthHead', 'display: inline-block');
+    changeStyle('thirdPage', 'display: block');
 }
 
 function chooseMonth(){
@@ -310,10 +309,10 @@ function chooseMonth(){
         // 表示当前点击的为em节点
         if (lastMonthId !== '') {
             // 非第一次点击
-            document.getElementById(lastMonthId).style = "";
+            getIdDom(lastMonthId).style = "";
         } else {
             // 第一次点击
-            document.getElementById('month-' + month).style = "";
+            getIdDom('month-' + month).style = "";
         }
         month = parseInt(target.innerHTML);
         lastMonthId = 'month-' + month;
@@ -326,9 +325,27 @@ function chooseMonth(){
         pagesArr.forEach(function(item){
             item.style = 'display: none'
         });
-        document.getElementById('firstPage').style = "display: block";
-        document.getElementById('changeDateHead').style = "display: inline-block";
-        document.getElementById('monthLeft').style = "display: inline-block";
-        document.getElementById('monthRight').style = "display: inline-block";
+        changeStyle('firstPage', 'display: block');
+        changeStyle(['changeDateHead', 'monthLeft', 'monthRight'], 'display: inline-block');
+    }
+}
+
+// 判断对象类型
+function isType(type){
+    return function(obj){
+        return toString.call(obj) == '[object ' + type + ']';
+    }
+}
+
+// 改变display属性
+function changeStyle(ids, styles){
+    var isString = isType('String'),
+        isArray = isType('Array');
+    if (isString(ids)) {
+        getIdDom(ids).style = styles;
+    } else if (isArray(ids)) {
+        ids.forEach(function(item){
+            getIdDom(item).style = styles;
+        })
     }
 }
