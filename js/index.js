@@ -1,11 +1,12 @@
     // 默认是当天
 var chosenDate = new Date(),
     year = chosenDate.getFullYear(),
-    month = chosenDate.getMonth(),
+    month = chosenDate.getMonth() + 1,
     date = chosenDate.getDate(),
     lastDateId = '',    // 挂到全局下去
     lastYearId = '',
-    lastMonthId = '';
+    lastMonthId = '',
+    firstNum = 0;
 
 window.onload = function(){
 
@@ -45,12 +46,10 @@ window.onload = function(){
 
     var yearStr = year.toString();
     var yearLastLetter = yearStr[yearStr.length-1];     // 末尾数
-    var firstNum = year - Number(yearLastLetter);   // 二级页面首位数字
+    firstNum = year - Number(yearLastLetter);   // 二级页面首位数字
     renderSecondPage(firstNum);
 
     getIdDom("backChangeYearPage").innerHTML = year;     // 三级页面年份
-
-    getIdDom("month-" + ++month).style = "background-color: #39f;color: #fff";
 
     // click事件集中写
 
@@ -62,21 +61,35 @@ window.onload = function(){
     clickFn('yearLeft', function(){
         if (getIdDom('changeYearHead').style.display != 'none') {
             // 此时是二级页面，选年份
+            if (firstNum - 10 < 1) {
+                // 首位年份不能小于1
+                return
+            }
             firstNum -= 10;
             renderSecondPage(firstNum);
         } else {
+            if (year - 1 < 1) {
+                // 年份不能小于1
+                return
+            }
             year--;
             renderFirstPage(year, month, date);
             getIdDom("backChangeYearPage").innerHTML = year;
             var yearStr = year.toString();
             var yearLastLetter = yearStr[yearStr.length-1];     // 末尾数
-            var firstNum = year - Number(yearLastLetter);   // 二级页面首位数字
+            firstNum = year - Number(yearLastLetter);   // 二级页面首位数字
             renderSecondPage(firstNum);
         }
     });
 
     clickFn('monthLeft', function(){
-        month--;
+        if (month < 2) {
+            // 1月
+            month = 12;
+            year--;
+        } else {
+            month--;
+        }
         renderFirstPage(year, month, date)
     });
 
@@ -91,13 +104,19 @@ window.onload = function(){
             getIdDom("backChangeYearPage").innerHTML = year;
             var yearStr = year.toString();
             var yearLastLetter = yearStr[yearStr.length-1];     // 末尾数
-            var firstNum = year - Number(yearLastLetter);   // 二级页面首位数字
+            firstNum = year - Number(yearLastLetter);   // 二级页面首位数字
             renderSecondPage(firstNum);
         }
     });
 
     clickFn('monthRight', function(){
-        month++;
+        if (month > 11) {
+            // 12月
+            month = 1;
+            year++;
+        } else {
+            month++;
+        }
         renderFirstPage(year, month, date)
     });
 
@@ -107,6 +126,10 @@ window.onload = function(){
         pagesArr.forEach(function(item){
             item.style = 'display: none'
         });
+        var yearStr = year.toString();
+        var yearLastLetter = yearStr[yearStr.length-1];     // 末尾数
+        firstNum = year - Number(yearLastLetter);   // 二级页面首位数字
+        renderSecondPage(firstNum);
         getIdDom('secondPage').style = "display: block";
         getIdDom('changeYearHead').style = "display: inline-block";
     });     // 点击年份切换至二级页面
@@ -116,6 +139,12 @@ window.onload = function(){
         pagesArr.forEach(function(item){
             item.style = 'display: none'
         });
+        if (lastMonthId !== '') {
+            // 非第一次点击
+            document.getElementById(lastMonthId).style = "";
+        }
+        getIdDom("month-" + month).style = "background-color: #39f;color: #fff";
+        lastMonthId = 'month-' + month;
         getIdDom('thirdPage').style = "display: block";
         getIdDom('changeMonthHead').style = "display: inline-block";
     })
@@ -130,7 +159,7 @@ window.onload = function(){
         getIdDom('changeYearHead').style = "display: inline-block";
         var yearStr = year.toString();
         var yearLastLetter = yearStr[yearStr.length-1];     // 末尾数
-        var firstNum = year - Number(yearLastLetter);   // 二级页面首位数字
+        firstNum = year - Number(yearLastLetter);   // 二级页面首位数字
         renderSecondPage(firstNum);
     })
 
@@ -143,7 +172,6 @@ function getIdDom(id){
 
 
 function renderFirstPage(year, month, date = 1){
-    month++;
     var datePage = [];    // 最终展示页面的所有日期合集        
     // 第一部分，上月月末几天
     // 首先要知道上月一共多少天
@@ -265,6 +293,12 @@ function chooseYear(item, thisYear) {
     pagesArr.forEach(function(item){
         item.style = 'display: none'
     });
+    if (lastMonthId !== '') {
+        // 非第一次点击
+        document.getElementById(lastMonthId).style = "";
+    }
+    getIdDom("month-" + month).style = "background-color: #39f;color: #fff";
+    lastMonthId = 'month-' + month;
     document.getElementById("changeMonthHead").style.display = "inline-block";
     document.getElementById("backChangeYearPage").innerHTML = year;
     document.getElementById("thirdPage").style.display = "block";
@@ -285,7 +319,7 @@ function chooseMonth(){
         lastMonthId = 'month-' + month;
         target.style = "background-color: #39f;color: #fff";
 
-        renderFirstPage(year, month-1, date);
+        renderFirstPage(year, month, date);
 
         // 展示首页
         var pagesArr = Array.from(document.querySelectorAll('.page'));
